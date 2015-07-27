@@ -30,26 +30,22 @@ app.get('/bla', function(request, response) {
 app.get('/person/:personId', function(request, response) {
     var personId = request.params.personId;
     console.log('/person/' + request.params.personId);
-    var q = client.query('SELECT * FROM people WHERE pid = $1;', [request.params.personId]);
     var res = '';
     var husband;
     var wife;
-    q.on('row', function(row) {
+    client.query('SELECT * FROM people WHERE pid = $1;', [request.params.personId]).on('row', function(row) {
       console.log('pid = ' + row.pid);
       console.log('name = ' + row.name);
       res += 'person (' + row.pid + '): ' + row.name;
     });
-    var q1 = client.query('SELECT husband FROM families WHERE wife = $1', [personId]);
-    q1.on('row', function(row) {
+    client.query('SELECT husband FROM families WHERE wife = $1', [personId]).on('row', function(row) {
         console.log ('husband: ' + row.husband);
         husband = row.husband;
     });
-    var q2 = client.query('SELECT wife FROM families WHERE husband = $1', [personId]);
-    q2.on('row', function(row) {
+    client.query('SELECT wife FROM families WHERE husband = $1', [personId]).on('row', function(row) {
         console.log ('wife: ' + row.wife);
         wife = row.wife;
-    });
-    q2.on('end', function() {
+    }).on('end', function() {
         console.log ('find husband or wife');
         var spouse;
 
@@ -59,12 +55,11 @@ app.get('/person/:personId', function(request, response) {
             spouse = husband;
         }
         if (spouse) {
+            console.log('found spouse: ' + spouse);
             res += ' married to (' + spouse + ') ';
-            var q3 = client.query('SELECT * FROM people WHERE pid = $1;', [spouse]);
-            q3.on('row', function(row) {
+            client.query('SELECT * FROM people WHERE pid = $1;', [spouse]).on('row', function(row) {
                 res += row.name;
-            });
-            q3.on('end', function() {
+            }).on('end', function() {
                 response.send(res);
             });
         } else {
