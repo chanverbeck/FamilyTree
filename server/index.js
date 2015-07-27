@@ -17,24 +17,12 @@ app.get('/', function(request, response) {
    response.sendFile(__dirname+'/showme.html');
 });
 
-app.get('/bla', function(request, response) {
-    var q = client.query('SELECT * FROM people WHERE pid = 1;');
-    q.on('row', function(row) {
-      console.log('pid = ' + row.pid);
-      console.log('name = ' + row.name);
-      response.send('person (' + row.pid + '): ' + row.name);
-    });
-   // response.sendFile(__dirname+'/showme.html');
-});
-
 app.get('/person/:personId', function(request, response) {
     var personId = request.params.personId;
     console.log('/person/' + request.params.personId);
     var res = {};
-    var husband;
-    var wife;
     var familyPersonIsAParentOf;
-    var familyPersonIsAChildOf;
+
     client.query('SELECT * FROM people WHERE pid = $1;', [request.params.personId]).on('row', function(row) {
       console.log('pid = ' + row.pid);
       console.log('name = ' + row.name);
@@ -43,32 +31,11 @@ app.get('/person/:personId', function(request, response) {
     });
 
     // Get spouse and children.
-    client.query('SELECT * FROM families WHERE wife = $1;', [personId]).on('row', function(row) {
-        console.log ('husband: ' + JSON.stringify(row));
-        husband = row.husband;
+    client.query('SELECT * FROM families, people WHERE (families.wife = $1 AND people.pid = families.husband) OR (families.husband = $1 AND people.pid = families.wife)', [personId]).on('row', function(row) {
+        console.log("spouse?? " + JSON.stringify(row));
+        res.spouse = row;
         familyPersonIsAParentOf = row.fid;
-        res.family = row;
-    });
-    client.query('SELECT * FROM families WHERE husband = $1;', [personId]).on('row', function(row) {
-        console.log ('wife: ' + JSON.stringify(row));
-        wife = row.wife;
-        familyPersonIsAParentOf = row.fid;
-        res.family = row;
     }).on('end', function() {
-        // console.log ('find husband or wife');
-        var spouse;
-
-        if (wife) {
-            spouse = wife;
-        } else if (husband) {
-            spouse = husband;
-        }
-        if (spouse) {
-            // console.log('found spouse: ' + spouse);
-            client.query('SELECT * FROM people WHERE pid = $1;', [spouse]).on('row', function(row) {
-                res.spouse = row;
-            });
-        }
         if (familyPersonIsAParentOf) {
             client.query('SELECT people.* FROM people, children WHERE people.pid = children.pid AND children.fid = $1;', [familyPersonIsAParentOf]).on('row', function(row, result) {
                 console.log('found child' + row.pid);
