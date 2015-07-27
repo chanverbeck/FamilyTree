@@ -5,7 +5,7 @@
 function getPerson(index)
 {
    var xmlHttp = new XMLHttpRequest();
-   xmlHttp.open ('GET', '/person/500', false);
+   xmlHttp.open ('GET', '/person/' + index, false);
   // xmlHttp.open ('GET', '/bla', false);
    xmlHttp.send (null);
    return xmlHttp.responseText;
@@ -13,9 +13,11 @@ function getPerson(index)
 
 function getText()
 {
-   var queriedText = getPerson(1);
+   var queriedText = getPerson(500);
    var divToFill = document.getElementById('divtofill');
-   divToFill.textContent  = queriedText;
+   
+   var personData = JSON.parse(queriedText);
+   divToFill.innerHTML = '<p>' + personData.person.name + '<p>' + queriedText;
 }
 </script>
 </head>
