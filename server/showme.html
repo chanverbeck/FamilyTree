@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Show me!</title>
+<script type='text/javascript'>
+function getPerson(index)
+{
+   var xmlHttp = new XMLHttpRequest();
+   xmlHttp.open ('GET', '/person/500', false);
+  // xmlHttp.open ('GET', '/bla', false);
+   xmlHttp.send (null);
+   return xmlHttp.responseText;
+}
+
+function getText()
+{
+   var queriedText = getPerson(1);
+   var divToFill = document.getElementById('divtofill');
+   divToFill.textContent  = queriedText;
+}
+</script>
+</head>
+<body onload='getText();'>
+<p>Show me!
+<div id='divtofill'></div>
+</body>
+</html>
