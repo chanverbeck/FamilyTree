@@ -13,16 +13,46 @@ function getPerson(index)
 
 function getText()
 {
-   var queriedText = getPerson(500);
-   var divToFill = document.getElementById('divtofill');
-   
-   var personData = JSON.parse(queriedText);
-   divToFill.innerHTML = '<p>' + personData.person.name + '<p>' + queriedText;
+  var inputField = document.getElementById('number');
+  // alert('value: ' + inputField.value);
+  
+  var numberToQuery = parseInt(inputField.value, 10);
+  // alert('converted value: ' + numberToQuery.toString());
+  var divToFill = document.getElementById('divtofill');
+
+  if (numberToQuery && numberToQuery !== NaN) {
+    var i;
+    var queriedText = getPerson(numberToQuery);
+    var personData = JSON.parse(queriedText);
+    var html = '';
+    html += '<p>(' + personData.person.pid + ') ' + personData.person.name;
+    if (personData.father) {
+      html += '<p>Father: (' + personData.father.pid + ') ' + personData.father.name;
+    }
+    if (personData.mother) {
+      html += '<p>Mother: (' + personData.mother.pid + ') ' + personData.mother.name;
+    }
+    if (personData.spouse) {
+      html += '<p>Married to (' + personData.spouse.pid + ') ' + personData.spouse.name;
+      if (personData.children) {
+        html += '<p>Children:';
+        for (i = 0; i < personData.children.length; ++i) {
+          html += '<p>(' + personData.children[i].pid + ') ' + personData.children[i].name;
+        }
+      }
+    }
+    divToFill.innerHTML = html + '<p>' + queriedText;
+  } else {
+    // alert('bad number ' + numberToQuery);
+    divToFill.innerHTML = '<p>Value ' + inputField.value + ' must be a number.';
+  } 
 }
 </script>
 </head>
 <body onload='getText();'>
 <p>Show me!
+<input id='number'/>
+<button onclick="getText();">Go</button>
 <div id='divtofill'></div>
 </body>
 </html>
