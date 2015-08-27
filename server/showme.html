@@ -21,27 +21,41 @@ function getText()
   var divToFill = document.getElementById('divtofill');
 
   if (numberToQuery && numberToQuery !== NaN) {
-    var i;
+    var childIndex;
+    var familyIndex;
+    var family;
     var queriedText = getPerson(numberToQuery);
     var personData = JSON.parse(queriedText);
     var html = '';
     html += '<p>(' + personData.person.pid + ') ' + personData.person.name;
+    if (personData.person.birthdate || personData.person.birthplace) {
+      html += '<br>Born ' + (personData.person.birthdate? (personData.person.birthdate + ' '): '') + (personData.person.birthplace? personData.person.birthplace: '');
+    }
+    if (personData.person.deathdate || personData.person.deathplace) {
+      html += '<br>Died ' + personData.person.deathdate + ' ' + personData.person.deathplace;
+      html += '<br>Died ' + (personData.person.deathdate? (personData.person.deathdate + ' '): '') + (personData.person.deathplace? personData.person.deathplace: '');
+    }
     if (personData.father) {
       html += '<p>Father: (' + personData.father.pid + ') ' + personData.father.name;
     }
     if (personData.mother) {
       html += '<p>Mother: (' + personData.mother.pid + ') ' + personData.mother.name;
     }
-    if (personData.spouse) {
-      html += '<p>Married to (' + personData.spouse.pid + ') ' + personData.spouse.name;
-      if (personData.children) {
-        html += '<p>Children:';
-        for (i = 0; i < personData.children.length; ++i) {
-          html += '<p>(' + personData.children[i].pid + ') ' + personData.children[i].name;
+    if (personData.families) {
+      for (familyIndex = 0; familyIndex < personData.families.length; ++familyIndex) {
+        family = personData.families[familyIndex];
+        if (family.spouse) {
+          html += '<p>Married to (' + family.spouse.pid + ') ' + family.spouse.name;
+        }
+        if (family.children && family.children.length > 0) {
+          html += '<p>Children:';
+          for (childIndex = 0; childIndex < family.children.length; ++childIndex) {
+            html += '<p>(' + family.children[childIndex].pid + ') ' + family.children[childIndex].name;
+          }
         }
       }
     }
-    divToFill.innerHTML = html + '<p>' + queriedText;
+    divToFill.innerHTML = html; // + '<p>' + queriedText;
   } else {
     // alert('bad number ' + numberToQuery);
     divToFill.innerHTML = '<p>Value ' + inputField.value + ' must be a number.';

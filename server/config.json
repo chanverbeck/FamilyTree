@@ -1,4 +1,0 @@
-{
-    "familyTreeConnectionString": "postgres://chan:chan@localhost:5432/familytree",
-    "serverPort": 8080
-}

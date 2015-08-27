@@ -1,0 +1,18 @@
+{
+  "name": "nodehw",
+  "version": "0.0.0",
+  "description": "Hellow, World!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Hello",
+    "World"
+  ],
+  "author": "Chan Verbeck",
+  "dependencies": {
+    "express": "~4.13.1",
+    "pg": "~4.4.0"
+  }
+}
