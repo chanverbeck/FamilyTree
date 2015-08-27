@@ -2,12 +2,13 @@
 console.log('Do things');
 
 var parseGedcom = require('./parsegedcom.js');
+var config = require('./config.json');
 
 var fs = require('fs');
 var path = require('path');
 
 var pg = require('pg');
-var conString = 'postgres://chan:chan@localhost:5432/familytree';
+var conString = config.familyTreeConnectionString;
 
 var client = new pg.Client(conString);
 client.connect();
