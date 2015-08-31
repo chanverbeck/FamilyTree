@@ -1,3 +1,5 @@
 config.json
+config.jsx
 /node_modules
 /.settings
+/bin
