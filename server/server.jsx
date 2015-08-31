@@ -8,6 +8,7 @@ var pg = require('pg');
 
 var app = express();
 app.use('/pages', express.static(path.join(__dirname, 'Pages')));
+app.use('/css', express.static(path.join(__dirname, 'css')));
 
 var config = require('./config.json');
 var conString = config.familyTreeConnectionString;

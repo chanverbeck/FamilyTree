@@ -6,6 +6,7 @@ module.exports = React.createClass({
             <html>
                 <head>
                     <title>Family Tree</title>
+                    <link rel='stylesheet' type='text/css' href='css/theme.css'/>
                 </head>
                 <body>
                     <div id="uiContainer" />

@@ -25,7 +25,17 @@ gulp.task('client-scripts', ['jsx'], function() {
         pipe(gulp.dest('bin/Pages'));
 });
 
-gulp.task('node', ['client-scripts', 'watch-jsx'], function() {
+gulp.task('watch-css', [], function() {
+    gulpWatch('server/**/*.css', {ignored: 'bin/' }, function() {
+        gulp.start('copy-css');
+    });
+});
+gulp.task('copy-css', [], function() {
+    return gulp.src('server/**/*.css')
+        .pipe(gulp.dest('bin'));
+});
+
+gulp.task('node', ['watch-css', 'client-scripts', 'watch-jsx'], function() {
     gulpNodemon({
         script: 'bin/server.js',
         ignore: ['gulpfile.js'],

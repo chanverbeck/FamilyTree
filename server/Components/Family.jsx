@@ -7,26 +7,23 @@ module.exports = React.createClass({
     },
     render: function() {
         return <div>
-            Family of {JSON.stringify(this.state.person)}<br/>
-            <div>
-                {this.renderFather(this.state.person)}
-                {this.renderMother(this.state.person)}
-                {this.renderSelf(this.state.person)}
-                {this.renderFamilies(this.state.person)}
-            </div>
+            {this.renderFather(this.state.person)}
+            {this.renderMother(this.state.person)}
+            {this.renderSelf(this.state.person)}
+            {this.renderFamilies(this.state.person)}
         </div>;
     },
     renderFather: function(person) {
         if (person && person.father) {
     console.log('have father');
-            return <Person person={person.father} />;
+            return <Person class='parent' person={person.father} />;
         }
         return null;
     },
     renderMother: function(person) {
         if (person && person.mother) {
     console.log('have mother');
-            return <Person person={person.mother} />;
+            return <Person class='parent' person={person.mother} />;
         }
         return null;
     },
@@ -52,7 +49,7 @@ module.exports = React.createClass({
     },
     renderSpouse: function(family) {
         if (family.spouse) {
-            return <Person person={family.spouse}/>
+            return <Person class='spouse' person={family.spouse}/>
         }
         return null;
     },
@@ -65,7 +62,7 @@ module.exports = React.createClass({
     },
     
     renderChild: function(person) {
-        return <Person person={person}/>
+        return <Person class='child' person={person}/>
     }
 });
 

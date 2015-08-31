@@ -5,7 +5,14 @@ module.exports = React.createClass({
         return { person: this.props.person };
     },
     render: function() {
-        return (<div>
+        var c
+        if (this.props.class) {
+            c = this.props.class;
+        } else {
+            c = "person";
+        }
+        console.log('class: ' + c);
+        return (<div className={c}>
             {this.renderPerson(this.state.person)}
         </div>);
     },

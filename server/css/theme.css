@@ -1,0 +1,14 @@
+.parent {
+	background-color: blue;
+	color: magenta;
+}
+.person {
+	background-color: red;
+}
+.spouse {
+	background-color: green;
+}
+.child {
+	background-color: cornflowerblue;
+	text-indent: 10px;
+}
