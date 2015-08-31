@@ -1,5 +1,5 @@
 var React = require('react');
-var Person = require('./Person');
+var Family = require('./Family');
 
 module.exports = React.createClass({
     getInitialState: function() {
@@ -10,20 +10,22 @@ module.exports = React.createClass({
             <div>
                 <input id='number'/>
                 <button>Go</button>
-                <Person person={this.getPerson(1)}/>
+                <Family person={this.getPerson(1)}/>
             </div>
         );
     },
     
     getPerson: function(index) {
         if (typeof(XMLHttpRequest) == "function") {
+            console.log ("Get person " + index);
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open ('GET', '/person/' + index, false);
             // xmlHttp.open ('GET', '/bla', false);
             xmlHttp.send (null);
-            return "Person(" + index + ") " + xmlHttp.responseText;
+            return JSON.parse(xmlHttp.responseText);
         } else {
-            return "Person(" + index + ") " + "No XMLHttpRequest";
+            console.log ("Don't get person " + index);
+            return {};
         }
     }
 
