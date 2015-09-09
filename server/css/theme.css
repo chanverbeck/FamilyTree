@@ -1,14 +1,27 @@
 .parent {
 	background-color: blue;
 	color: magenta;
+	width: 300px;
+	margin: 8px 8px 8px 20px;
+	padding: 4px 4px 4px 4px;
 }
 .person {
 	background-color: red;
+	width: 300px;
+	margin: 8px;
+	padding: 4px 4px 4px 4px;
 }
 .spouse {
 	background-color: green;
+	right: 10px;
+	width: 300px;
+	margin: 8px;
+	padding: 4px 4px 4px 4px;
 }
 .child {
 	background-color: cornflowerblue;
-	text-indent: 10px;
+	right: 10px;
+	width: 300px;
+	margin: 8px 8px 8px 20px;
+	padding: 4px 4px 4px 4px;
 }
