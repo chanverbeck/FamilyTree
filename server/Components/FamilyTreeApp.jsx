@@ -33,10 +33,9 @@ module.exports = React.createClass({
     
     getPerson: function(index) {
         if (typeof(XMLHttpRequest) == "function") {
-            console.log ("Get person " + index);
+            // console.log ("Get person " + index);
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open ('GET', '/person/' + index, false);
-            // xmlHttp.open ('GET', '/bla', false);
             xmlHttp.send (null);
             return JSON.parse(xmlHttp.responseText);
         } else {

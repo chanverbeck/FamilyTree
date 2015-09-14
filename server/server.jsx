@@ -110,23 +110,31 @@ app.get('/search/:name', function(request, response) {
             console.log('Err = ' + err);
             response.send(JSON.stringify({pid: -1}));
         } else {
-            console.log('Num Rows returned = ' + result.rows.length);
+            if (verbose) {
+                console.log('Num Rows returned = ' + result.rows.length);
+            }
             var httpResult = {totalFound: result.rows.length};
 
             if (result.rows.length == 0)
             {
-                console.log("didn't find any " + name);
+                if (verbose) {
+                    console.log("didn't find any " + name);
+                }
                 httpResult.pid = -1;
             } else {
                 if (result.rows.length <= lastSearchIndex) {
-                    console.log("Wrapped: didn't find any more " + name);
+                    if (verbose) {
+                        console.log("Wrapped: didn't find any more " + name);
+                    }
                     lastSearchIndex = 0;
                     httpResult.wrappedToFirst = true;
                 }
                 httpResult.foundIndex = lastSearchIndex;
                 httpResult.pid = result.rows[lastSearchIndex].pid;
             }
-            console.log('search for ' + name + ', return ' + JSON.stringify(httpResult));
+            if (verbose) {
+                console.log('search for ' + name + ', return ' + JSON.stringify(httpResult));
+            }
             response.send(JSON.stringify(httpResult));
         }
     });

@@ -3,8 +3,8 @@ var PersonActions = require('../Actions/PersonActions');
 
 module.exports = React.createClass({
     onclick: function() {
-        console.log('onclick()');
-        console.log('person: ' + this.props.person.pid);
+        // console.log('onclick()');
+        // console.log('person: ' + this.props.person.pid);
         PersonActions.navigateTo(this.props.person.pid);
     },
     render: function() {
@@ -15,7 +15,7 @@ module.exports = React.createClass({
             c = "person";
         }
         
-        console.log('person: ' + this.props.person.pid + '. class: ' + c);
+        // console.log('person: ' + this.props.person.pid + '. class: ' + c);
         return (<div className={c} onClick={this.onclick} >
             {this.renderPerson(this.props.person)}
         </div>);

@@ -10,7 +10,7 @@ function PersonStore() {
 }
 
 PersonStore.prototype.navigateTo = function(personId) {
-console.log('PersonStore.prototype.navigateTo(' + personId + ')');
+	// console.log('PersonStore.prototype.navigateTo(' + personId + ')');
 	this.setState({
 		personId: personId
 	});
