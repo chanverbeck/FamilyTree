@@ -14,7 +14,8 @@
   "dependencies": {
     "express": "~4.13.1",
     "pg": "~4.4.0",
-    "react": "~0.13.3"
+    "react": "~0.13.3",
+    "alt": "~0.17.3"
   },
   "devDependencies": {
     "gulp": "~3.9.0",

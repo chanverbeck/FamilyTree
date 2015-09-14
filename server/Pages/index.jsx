@@ -3,7 +3,7 @@ var FamilyTreeApp = require('../Components/FamilyTreeApp');
 var Person = require('../Components/Person');
 
 var familyTreeElementElement = React.render(
-    <FamilyTreeApp from='server.jsx, running on the server' />,
+    <FamilyTreeApp personId='79' />,
     document.getElementById('personContainer'));
 
 //var personElement = React.render(

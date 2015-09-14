@@ -1,19 +1,23 @@
 var React = require('react');
+var PersonActions = require('../Actions/PersonActions');
 
 module.exports = React.createClass({
-    getInitialState: function() {
-        return { person: this.props.person };
+    onclick: function() {
+        console.log('onclick()');
+        console.log('person: ' + this.props.person.pid);
+        PersonActions.navigateTo(this.props.person.pid);
     },
     render: function() {
-        var c
+        var c;
         if (this.props.class) {
             c = this.props.class;
         } else {
             c = "person";
         }
-        console.log('class: ' + c);
-        return (<div className={c}>
-            {this.renderPerson(this.state.person)}
+        
+        console.log('person: ' + this.props.person.pid + '. class: ' + c);
+        return (<div className={c} onClick={this.onclick} >
+            {this.renderPerson(this.props.person)}
         </div>);
     },
     renderPerson: function(person) {
