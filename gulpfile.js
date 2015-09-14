@@ -31,7 +31,6 @@ gulp.task('watch-css', ['copy-css'], function() {
     });
 });
 gulp.task('copy-css', [], function() {
-    console.log('copy-css!');
     return gulp.src('server/**/*.css')
         .pipe(gulp.dest('bin'));
 });

@@ -2,40 +2,30 @@ var React = require('react');
 var Family = require('./Family');
 var PersonStore = require('../Stores/PersonStore');
 var PersonActions = require('../Actions/PersonActions');
+var Search = require('./Search');
 
 module.exports = React.createClass({
-//    constructor: function(props) {
-//    console.log('constructor');
-//        super(props);
-//        
-//        this.storeChanged = this.storeChanged.bind(this);
-//        this.state = PersonStore.getState();
-//    },
-    
     componentDidMount: function () {
-    console.log('Did Mount');
         PersonStore.listen(this.storeChanged);
     },
     componentWillUnmount: function() {
-    console.log('Will Unmount');
         PersonStore.unlisten(this.storeChanged);
     },
     storeChanged: function(state) {
-        console.log('Store changed to ' + state.personId);
+        // console.log('Store changed to ' + state.personId);
         this.setState(state);
     },
     getInitialState: function() {
-    console.log('get initial state ' + this.props.personId);
+        // console.log('get initial state ' + this.props.personId);
         this.storeChanged = this.storeChanged.bind(this);
         this.state = PersonStore.getState();
         return { personId: this.state.personId };
     },
     render: function() {
-    console.log('Render FamilyTree with person ' + this.state.personId);
+        // console.log('Render FamilyTree with person ' + this.state.personId);
         return (
             <div>
-                <input id='number'/>
-                <button>Go</button>
+                <Search />
                 <Family person={this.getPerson(this.state.personId)}/>
             </div>
         );
