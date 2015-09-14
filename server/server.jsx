@@ -92,6 +92,46 @@ app.get('/person/:personId', function(request, response) {
 
 });
 
+var lastSearchString = null;
+var lastSearchIndex = 0;
+app.get('/search/:name', function(request, response) {
+    var name = request.params.name;
+    if (name === lastSearchString) {
+        lastSearchIndex++;
+    } else {
+        lastSearchString = name;
+        lastSearchIndex = 0;
+    }
+
+    client.query('SELECT pid FROM people WHERE UPPER(name) LIKE UPPER($1);', ['%' + name + '%'], function(err, result) {
+        var httpResult;
+        if (err)
+        {
+            console.log('Err = ' + err);
+            response.send(JSON.stringify({pid: -1}));
+        } else {
+            console.log('Num Rows returned = ' + result.rows.length);
+            var httpResult = {totalFound: result.rows.length};
+
+            if (result.rows.length == 0)
+            {
+                console.log("didn't find any " + name);
+                httpResult.pid = -1;
+            } else {
+                if (result.rows.length <= lastSearchIndex) {
+                    console.log("Wrapped: didn't find any more " + name);
+                    lastSearchIndex = 0;
+                    httpResult.wrappedToFirst = true;
+                }
+                httpResult.foundIndex = lastSearchIndex;
+                httpResult.pid = result.rows[lastSearchIndex].pid;
+            }
+            console.log('search for ' + name + ', return ' + JSON.stringify(httpResult));
+            response.send(JSON.stringify(httpResult));
+        }
+    });
+});
+
 var server = app.listen(port, function() {
    var host = server.address().address;
    var port = server.address().port;
