@@ -25,12 +25,13 @@ gulp.task('client-scripts', ['jsx'], function() {
         pipe(gulp.dest('bin/Pages'));
 });
 
-gulp.task('watch-css', [], function() {
+gulp.task('watch-css', ['copy-css'], function() {
     gulpWatch('server/**/*.css', {ignored: 'bin/' }, function() {
         gulp.start('copy-css');
     });
 });
 gulp.task('copy-css', [], function() {
+    console.log('copy-css!');
     return gulp.src('server/**/*.css')
         .pipe(gulp.dest('bin'));
 });
