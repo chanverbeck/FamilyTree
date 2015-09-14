@@ -6,11 +6,11 @@ Flux (using Alt), and Postgresql.
 Installation
 ----------
 To run this, you must instantiate a Postgresql server. You should npm install
-to get all of the proper bits on your machine. Run [sudo] apt-get -i gulp
+to get all of the proper bits on your machine. 
 
 Add a config.json to initdb that contains the property 
 familyTreeConnectionString, set to 
-postgres://<role>:<password>@localhost:<portnum>/familytree, using JSON. 
+postgres://&lt;role&gt;:&lt;password&gt;@localhost:&lt;portnum&gt;/familytree, using JSON. 
 Then run node createtables.js.
 
 Run gulp build to set up the bin folder, and then put a similar config.json
