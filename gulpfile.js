@@ -19,13 +19,13 @@ gulp.task('jsx', function() {
 
 gulp.task('build', ['client-scripts']);
 
-gulp.task('client-scripts', ['jsx'], function() {
+gulp.task('client-scripts', ['jsx', 'copy-css'], function() {
     return browserify('./bin/Pages/index.js').bundle().
         pipe(source('index.js')).
         pipe(gulp.dest('bin/Pages'));
 });
 
-gulp.task('watch-css', ['copy-css'], function() {
+gulp.task('watch-css', [], function() {
     gulpWatch('server/**/*.css', {ignored: 'bin/' }, function() {
         gulp.start('copy-css');
     });
@@ -35,7 +35,7 @@ gulp.task('copy-css', [], function() {
         .pipe(gulp.dest('bin'));
 });
 
-gulp.task('node', ['watch-css', 'client-scripts', 'watch-jsx'], function() {
+gulp.task('node', ['client-scripts', 'watch-css', 'watch-jsx'], function() {
     gulpNodemon({
         script: 'bin/server.js',
         ignore: ['gulpfile.js'],
