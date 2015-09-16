@@ -92,17 +92,17 @@ app.get('/person/:personId', function(request, response) {
 
 });
 
-var lastSearchString = null;
-var lastSearchIndex = 0;
-app.get('/search/:name', function(request, response) {
-    var name = request.params.name;
-    if (name === lastSearchString) {
-        lastSearchIndex++;
-    } else {
-        lastSearchString = name;
-        lastSearchIndex = 0;
-    }
+app.get('/search/:name/:index', function(request, response) {
+    // console.log ("search name: + " + request.params.name + ". index: " + request.params.index);
+    searchFor(response, request.params.name, request.params.index);
+});
 
+app.get('/search/:name', function(request, response) {
+    // console.log ("search name: + " + request.params.name + ". no index.");
+    searchFor(response, request.params.name, 0);
+});
+
+function searchFor(response, name, index) {
     client.query('SELECT pid FROM people WHERE UPPER(name) LIKE UPPER($1);', ['%' + name + '%'], function(err, result) {
         var httpResult;
         if (err)
@@ -122,15 +122,14 @@ app.get('/search/:name', function(request, response) {
                 }
                 httpResult.pid = -1;
             } else {
-                if (result.rows.length <= lastSearchIndex) {
+                if (result.rows.length <= index) {
                     if (verbose) {
                         console.log("Wrapped: didn't find any more " + name);
                     }
-                    lastSearchIndex = 0;
-                    httpResult.wrappedToFirst = true;
+                    httpResult.pid = -1;
+                } else {
+                    httpResult.pid = result.rows[index].pid;
                 }
-                httpResult.foundIndex = lastSearchIndex;
-                httpResult.pid = result.rows[lastSearchIndex].pid;
             }
             if (verbose) {
                 console.log('search for ' + name + ', return ' + JSON.stringify(httpResult));
@@ -138,7 +137,7 @@ app.get('/search/:name', function(request, response) {
             response.send(JSON.stringify(httpResult));
         }
     });
-});
+}
 
 var server = app.listen(port, function() {
    var host = server.address().address;
